@@ -5,6 +5,9 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -23,6 +26,16 @@ public class GUI {
 	private JTextField textField_9;
 	private JTextField textField_10;
 	private JTextField textField_11;
+	
+	private CardLayout cl;
+	private JPanel pCont;
+	private JPanel paginaPrincipal;
+	private JPanel AgregarUsuario;
+	private JPanel NuevoRestaurante;
+	private JPanel Recomend;
+	
+	
+	
 
 	/**
 	 * Launch the application.
@@ -30,6 +43,7 @@ public class GUI {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				new CardLayout();
 				try {
 					GUI window = new GUI();
 					window.frame.setVisible(true);
@@ -51,14 +65,18 @@ public class GUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("GUI Proyecto");
 		frame.setBounds(100, 100, 885, 545);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
-		JPanel paginaPrincipal = new JPanel();
-		frame.getContentPane().add(paginaPrincipal, "name_3359906548350");
+		pCont = (JPanel)frame.getContentPane();
+		cl = (CardLayout)(frame.getContentPane().getLayout());
+		
+		paginaPrincipal = new JPanel();
+		pCont.add(paginaPrincipal, "1");
 		paginaPrincipal.setLayout(null);
+		
 		
 		JLabel lblNewLabel = new JLabel("Proyecto: Woods - Dieter - Jerry");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
@@ -95,8 +113,8 @@ public class GUI {
 		btnNewButton_1.setBounds(582, 246, 189, 125);
 		paginaPrincipal.add(btnNewButton_1);
 		
-		JPanel AgregarUsuario = new JPanel();
-		frame.getContentPane().add(AgregarUsuario, "name_3368813042618");
+		AgregarUsuario = new JPanel();
+		pCont.add(AgregarUsuario, "2");
 		AgregarUsuario.setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Agregar Usuario");
@@ -144,8 +162,8 @@ public class GUI {
 		btnAtras.setBounds(209, 385, 151, 38);
 		AgregarUsuario.add(btnAtras);
 		
-		JPanel NuevoRestaurante = new JPanel();
-		frame.getContentPane().add(NuevoRestaurante, "name_4142407088969");
+		NuevoRestaurante = new JPanel();
+		pCont.add(NuevoRestaurante, "3");
 		NuevoRestaurante.setLayout(null);
 		
 		JLabel lblNewLabel_4 = new JLabel("Nuevo Restaurante");
@@ -202,8 +220,8 @@ public class GUI {
 		btnAtras_1.setBounds(316, 400, 115, 41);
 		NuevoRestaurante.add(btnAtras_1);
 		
-		JPanel Recomend = new JPanel();
-		frame.getContentPane().add(Recomend, "name_4798007402486");
+		Recomend = new JPanel();
+		pCont.add(Recomend, "4");
 		Recomend.setLayout(null);
 		
 		JLabel lblNewLabel_5 = new JLabel("Recomendaciones");
@@ -243,5 +261,57 @@ public class GUI {
 		btnQuitarRestaurante.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnQuitarRestaurante.setBounds(473, 405, 186, 34);
 		Recomend.add(btnQuitarRestaurante);
+		
+		cl.show(pCont, "1");
+		
+		btnNewButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "4");
+			}		
+	});
+		
+		btnNewButton_1.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "2");
+			}		
+	});
+		
+		btnAtras.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "1");
+			}		
+	});
+		
+		btnAtras_1.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "1");
+			}		
+	});
+		
+		btnNewButton_3.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "2");
+			}		
+	});
+		
+		btnAgregarRestaurante.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "2");
+			}		
+	});
+		
+		btnQuitarRestaurante.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "2");
+			}		
+	});
+		
 	}
 }
