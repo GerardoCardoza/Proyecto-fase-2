@@ -2,6 +2,8 @@ package mema2.pkg0;
 
 
 import java.sql.*;
+import java.util.HashSet;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -76,14 +78,50 @@ public class Conexion {
         }
     }
     
-    public void Recomendar(Estudiante e1){
-        String[] res=new String[3];
+    public String[] Recomendar(Estudiante e1){
+        String [] respuesta=new String[3];
+        String[] res=new String[1000];
+        String[] totalRestaurantes=new String[1000];
         try{
-            stmt.executeUpdate("MATCH (Estudiante{name:'"+e1.getNombre()+"'})--(Estudiante) return Estudiante.nombre");
+            ResultSet rs = stmt.executeQuery("MATCH (Estudiante{name:'"+e1.getNombre()+"'})-[rel:amigo]-(Amigo) return Amigo");
+            int i=0;
+            while (rs.next()){
+                Map map = (Map)rs.getObject("Amigo");
+                String s = map.get("name").toString();
+                System.out.println(s);
+                res[i]=s;
+                    //tomando los restaurantes
+                    ResultSet tesRest=stmt.executeQuery("MATCH (Estudiante{name:'"+s+"'})-[rel:Cliente]-(Restaurante) return Restaurante");
+                    while(tesRest.next()){
+                        Map tempMap=(Map)tesRest.getObject("Restaurante");
+                        String t=tempMap.get("name").toString();
+                        totalRestaurantes[i]=t;
+                        System.out.println(t);
+                    }
+                i++;
+            }          
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+        //agregando en el hashset
+        HashSet tempSet=new HashSet();
+        for(int m=0;m<totalRestaurantes.length;m++){
+            String nombreRes=totalRestaurantes[m];
+            tempSet.add(nombreRes);
+        }
+        
+        
+           
+        //obteniendo frecuencias
+        for(int n=0;n<res.length;n++){
+            if(tempSet.contains(res[n])){
+                
+            }
+        }
+        
+        System.out.println(tempSet.toString());
+        return respuesta;
         
     }
         

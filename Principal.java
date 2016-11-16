@@ -33,17 +33,19 @@ public class Principal {
         
         
         Conexion miCon=new Conexion();
-        Estudiante e1=new Estudiante("pedro","mecatronica",21,"jla");
-        //Estudiante e2=new Estudiante("luis","mecatronica",23,"123456");
+        Estudiante e1=new Estudiante("luis","mecatronica",21,"jla");
+        //Estudiante e2=new Estudiante("Andres","mecatronica",23,"123456");
         //Restaurante r1=new Restaurante("Red","uvg","sandwiches","chimichanga");
         //miCon.crearRestaurante(r1);
         //miCon.crearEstudiante(e1);
         //miCon.crearEstudiante(e2);
         //miCon.crearAmigo(e1, e2);
         //miCon.crearCliente(e1, r1);
-        //miCon.deleteEstudiante(e1);
+        //miCon.deleteEstudiante(e2);
         
+        //miCon.Recomendar(e1);
         miCon.Recomendar(e1);
+        
        
     }
 }
