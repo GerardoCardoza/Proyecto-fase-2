@@ -36,7 +36,8 @@ public class Gui {
 	private JPanel NuevoRestaurante;
 	private JPanel Recomend;
 	
-	
+	private String EstudianteActualUsuario;
+        private Estudiante EstudianteFijo;
 	
 
 	
@@ -52,11 +53,17 @@ public class Gui {
 	 * Initialize the contents of the frame.
 	 */
 	void initialize() {
-                System.out.println("prueba");
+                Conexion miCon=new Conexion();
+                
+                EstudianteFijo=new Estudiante(EstudianteActualUsuario,"b",2,"m");
+                miCon.Recomendar(EstudianteFijo);
+                
+            
 		frame = new JFrame("GUI Proyecto");
 		frame.setBounds(100, 100, 885, 545);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
+                frame.setVisible(true);
 		
 		pCont = (JPanel)frame.getContentPane();
 		cl = (CardLayout)(frame.getContentPane().getLayout());
@@ -104,6 +111,8 @@ public class Gui {
 		AgregarUsuario = new JPanel();
 		pCont.add(AgregarUsuario, "2");
 		AgregarUsuario.setLayout(null);
+                
+                
 		
 		JLabel lblNewLabel_3 = new JLabel("Agregar Usuario");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 22));
@@ -142,8 +151,13 @@ public class Gui {
 		
 		JButton btnAgregarlo = new JButton("Agregarlo");
 		btnAgregarlo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnAgregarlo.setBounds(569, 173, 183, 159);
+		btnAgregarlo.setBounds(569, 173, 183, 59);
 		AgregarUsuario.add(btnAgregarlo);
+                
+                JButton btnAgregarAmigo=new JButton("Friend");
+                btnAgregarAmigo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+                btnAgregarAmigo.setBounds(569,385,151,38);
+                AgregarUsuario.add(btnAgregarAmigo);
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -251,11 +265,22 @@ public class Gui {
 		Recomend.add(btnQuitarRestaurante);
 		
 		cl.show(pCont, "1");
+                
+                btnQuitarRestaurante.setVisible(false);
 		
 		btnNewButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(pCont, "4");
+                                EstudianteActualUsuario=textFieldUsuario.getText();
+                                String[] miLista=miCon.Recomendar(EstudianteFijo);
+                                textField_9.setText(miLista[0]);
+                                textField_10.setText(miLista[1]);
+                                textField_11.setText(miLista[2]);
+                                System.out.println(miLista[0]);
+                                System.out.println(miLista[1]);
+                                System.out.println(miLista[2]);
+                                
 			}		
 	});
 		
@@ -263,6 +288,33 @@ public class Gui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(pCont, "2");
+                                btnAgregarAmigo.setEnabled(false);
+                                btnAgregarlo.setEnabled(true);
+                                textField_3.setEditable(true);
+                                textField_4.setEditable(true);
+			}		
+	});
+                
+                btnAgregarAmigo.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cl.show(pCont, "2");
+                                Estudiante tempE=new Estudiante(textField_2.getText(),"a",1,"f");
+                                Estudiante tempE2=new Estudiante(EstudianteActualUsuario,"b",2,"m");
+                                miCon.crearAmigo(tempE, tempE2);
+			}		
+	});
+                
+                btnAgregarlo.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+                            String tempNombre=textField_2.getText();
+                            String tempEdad=textField_3.getText();
+                            String tempCarrera=textField_4.getText();
+                            int tempEdadInt=Integer.parseInt(tempEdad);
+                            String contrasena="4568";
+                            Estudiante tempEstudiante=new Estudiante(tempNombre,tempCarrera,tempEdadInt,contrasena);
+                            miCon.crearEstudiante(tempEstudiante);
 			}		
 	});
 		
@@ -284,13 +336,31 @@ public class Gui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cl.show(pCont, "2");
+                                textField_3.setEditable(false);
+                                textField_4.setEditable(false);
+                                btnAgregarlo.setEnabled(false);
+                                
+			}		
+	});
+                
+                btnNewButton_2.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+                            String tempNombre=textField_5.getText();
+                            String tempTipo=textField_6.getText();
+                            String tempMasCon=textField_7.getText();
+                            String ubicacion=textField_8.getText();
+                            Restaurante tempRes=new Restaurante(tempNombre,ubicacion,tempTipo,tempMasCon);
+                            miCon.crearRestaurante(tempRes);
+                            Estudiante tempE2=new Estudiante(EstudianteActualUsuario,"b",2,"m");
+                            miCon.crearCliente(tempE2, tempRes);
 			}		
 	});
 		
 		btnAgregarRestaurante.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cl.show(pCont, "2");
+				cl.show(pCont, "3");
                                 
 			}		
 	});
@@ -298,7 +368,11 @@ public class Gui {
 		btnQuitarRestaurante.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cl.show(pCont, "2");
+				cl.show(pCont, "3");
+                                textField_6.setEditable(false);
+                                textField_7.setEditable(false);
+                                textField_8.setEditable(false);
+                                btnNewButton_2.setEnabled(false);
 			}		
 	});
 		

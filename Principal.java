@@ -30,6 +30,7 @@ public class Principal {
             System.out.println("AAA");
         }*/
         
+        Gui miGui=new Gui();
         
         
         Conexion miCon=new Conexion();

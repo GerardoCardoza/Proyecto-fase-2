@@ -69,9 +69,28 @@ public class Conexion {
         }
     }
     
+    public void deleteRestaurante(Restaurante r1){
+        try {
+            stmt.executeUpdate("MATCH (x:Restaurante{name:'"+r1.getNombre()+"'}) detach delete x");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void crearAmigo(Estudiante e1,Estudiante e2){
         try{
             stmt.executeUpdate("MATCH (x:Estudiante {name:'"+ e1.getNombre()+"'})MATCH (y:Estudiante{name:'"+e2.getNombre()+"'})"+"MERGE (x)-[:amigo]->(y)");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void getEstudiante(String nombre){
+        try{
+            ResultSet rs = stmt.executeQuery("MATCH (Estudiante{name:"+nombre+"})-[rel:amigo]-(Amigo) return Amigo");
+            Map map= (Map)rs.getObject("Amigo");
+            String s=map.get("name").toString();
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -111,17 +130,31 @@ public class Conexion {
             tempSet.add(nombreRes);
         }
         
+        int[] frecuencias=new int[10];
+        for(int q=0;q<frecuencias.length;q++)
+            frecuencias[q]=0;
         
-           
+        String[] orden=new String[10];
+        
         //obteniendo frecuencias
+        int count=0;
         for(int n=0;n<res.length;n++){
             if(tempSet.contains(res[n])){
-                
+                frecuencias[count]=+1;
+                orden[count]=res[n];
             }
         }
         
-        System.out.println(tempSet.toString());
-        return respuesta;
+        for(int q=0;q<orden.length;q++)
+            System.out.print(orden[q]);
+        
+        System.out.println();
+        
+        for(int q=0;q<frecuencias.length;q++)
+            System.out.print(frecuencias[q]);
+        
+        System.out.println(orden[0]);
+        return orden;
         
     }
         
